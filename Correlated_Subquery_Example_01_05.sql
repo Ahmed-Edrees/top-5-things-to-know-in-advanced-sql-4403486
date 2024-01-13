@@ -15,3 +15,9 @@ WHERE NOT EXISTS
 				(SELECT [CustState] FROM [Red30Tech].[dbo].[OnlineRetailSales$] as o
 				 WHERE c.[State] = o.[CustState])
 
+
+-------- Solving the same problem using Unrelated Subquery
+SELECT [First Name], [Last Name], [State], [Email], [Phone Number] 
+FROM [Red30Tech].[dbo].[ConventionAttendees$] as c
+WHERE [State] NOT IN (SELECT [CustState] FROM [Red30Tech].[dbo].[OnlineRetailSales$])
+
