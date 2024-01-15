@@ -1,6 +1,8 @@
 /*
 Solving Challenges of (Top Five Things To Know In Advanced SQL( Course
 */
+
+
 --- #1 SubQuery Challenge
 --- List the following columns where in stoch value is less than the total average stock value
 SELECT ProdCategory, ProdNumber, ProdName, [In Stock]
@@ -8,6 +10,7 @@ FROM Red30Tech..Inventory$
 WHERE [In Stock] < (SELECT AVG([In Stock]) FROM Red30Tech..Inventory$)
 
 
+	
 --- #2 Solving This previous using CTE 
 WITH AvgStock(AvgInStockValue) AS (
 	SELECT AVG([In Stock]) FROM Red30Tech..Inventory$ 
@@ -17,6 +20,7 @@ FROM Red30Tech..Inventory$,AvgStock
 WHERE [In Stock] < AvgInStockValue
 
 
+	
 ---	#3 ROW_NUMBER()
 --- Return the first 3 orders with the highest order total amount for each poduct category 
 --- For Boehm Inc. Customer
@@ -30,6 +34,7 @@ WHERE CustName='Boehm Inc.'
 SELECT * 
 FROM HighestOrderTotals
 WHERE RowNum <= 3;
+
 
 
 --- #4 LAG() AND LEAD()
@@ -50,3 +55,12 @@ FROM  (
 
 
 --- #5 RANK() AND DENSE_RANK()
+--- Rank first 3 Attendees in each state 
+WITH FirstAttendes AS(
+		SELECT [Registration Date], Email, State,
+			DENSE_RANK() OVER (PARTITION BY State ORDER BY [Registration Date] ) AS DesneRank
+		FROM Red30Tech..ConventionAttendees$
+)
+SELECT * 
+FROM FirstAttendes
+WHERE DesneRank <= 3
